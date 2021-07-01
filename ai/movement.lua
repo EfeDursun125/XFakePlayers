@@ -291,10 +291,6 @@ function ObjectivePlantingBomb()
 	if not IsWeaponExists(CS_WEAPON_C4) then
 		return
 	end
-	
-	if IsAreaChanged then
-	--	AI_Area.Flags := AI_Area.Flags or NAV_AREA_PLANTER_MARK;
-	end
 
 	if not MoveOnChain() and IsSlowThink then
 		if HasWorld() then
@@ -332,30 +328,25 @@ function ObjectivePlantingBomb()
 end
 
 function ObjectiveDefusingBomb() 
-	--[[if not IsBombPlanted then
+	if not IsBombPlanted then
 		return
 	end
 	
 	C4 = FindActiveEntityByModelName("models/w_c4")
 	
-	if not MoveOnChain() then
-		if C4 ~= nil then
-			O = Vec3.New(GetEntityOrigin(C4))
-			BuildChainEx("walking to bomb at", O)
-		else
-			BuildChainToAreaEx("searching bomb at", GetAreaForSearching)
-		end
+	if C4 ~= nil then
+		O = Vec3.New(GetEntityOrigin(C4))
 	else
-		if C4 ~= nil then
-			O = Vec3.New(GetEntityOrigin(C4))
-			
-			if O ~= ChainFinalPoint then
-				ResetObjectiveMovement()
-			end
-		end
-	end]]
+		O = Vec3.New(GetBombStatePosition()) -- find bomb on radar
+	end
 	
-	-- fuck this !!!
+	if not MoveOnChain() then
+		BuildChainEx("walking bomb at", O)
+	else
+		if (O ~= ChainFinalPoint) and IsSlowThink then
+			ResetObjectiveMovement()
+		end
+	end
 	
 	ObjectiveWalking()
 end
