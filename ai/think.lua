@@ -154,6 +154,7 @@ function PreThink()
 	IsSlowThink = DeltaTicks(LastSlowThinkTime) >= SLOW_THINK_PERIOD
 
 	if IsSlowThink then
+		FindEnemiesAndFriends()
 		LastSlowThinkTime = Ticks()
 	end
 	
@@ -162,14 +163,17 @@ function PreThink()
 	end
 	
 	FindCurrentWeapon()
-	FindEnemiesAndFriends()
+	
+	if not HasEnemiesNear then
+		FindEnemiesAndFriends()
+	end
 end
 
 function PostThink()
 	
 	-- decrease recoil
 	
-	V = Vec3.New(GetViewAngles()) - Vec3.New(GetPunchAngle())
+	V = Vec3.New(GetViewAngles()) - (Vec3.New(GetPunchAngle()) / 2) -- aim fix
 	SetViewAngles(Vec3Unpack(V))
 end
 
