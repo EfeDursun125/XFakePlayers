@@ -29,14 +29,8 @@ function Movement()
 		PrimitiveMovement()		
 	end
 		
-	if not Idle then
-		if HasFriendsNear and (GetDistance(NearestFriend) < 50) then
-			MoveOut(NearestFriend)
-		end
-	else
-		if HasPlayersNear and (GetDistance(NearestPlayer) < 50) then
-			MoveOut(NearestPlayer)
-		end
+	if HasPlayersNear and (GetDistance(NearestPlayer) < 50) then
+		MoveOut(NearestPlayer)
 	end
 end
 
@@ -109,12 +103,12 @@ function CheckStuckMonitor()
 	LastStuckCheckTime = Ticks()
 	
 	if IsCrouching() then
-		Divider = 5
+		Divider = 0.2
 	else
-		Divider = 3
+		Divider = 0.33333333333
 	end
 	
-	if GetDistance(Vec3Unpack(StuckOrigin)) < GetMaxSpeed() / Divider then 
+	if GetDistance(Vec3Unpack(StuckOrigin)) < GetMaxSpeed() * Divider then 
 		StuckWarnings = StuckWarnings + 1
 	else
 		StuckWarnings = StuckWarnings - 1
