@@ -6,7 +6,7 @@
 	SLOW_THINK_PERIOD = 1000
 
 	KNIFE_PRIMARY_ATTACK_DISTANCE = HUMAN_WIDTH * 2
-	KNIFE_ALTERNATIVE_ATTACK_DISTANCE = KNIFE_PRIMARY_ATTACK_DISTANCE / 1.5
+	KNIFE_ALTERNATIVE_ATTACK_DISTANCE = KNIFE_PRIMARY_ATTACK_DISTANCE * 0.66666666666
 
 	OBJECTIVE_LOOKING_AREA_OFFSET = 2;
 	
@@ -173,7 +173,7 @@ function PostThink()
 	
 	-- decrease recoil
 	
-	V = Vec3.New(GetViewAngles()) - (Vec3.New(GetPunchAngle()) / 2) -- aim fix
+	V = Vec3.New(GetViewAngles()) - (Vec3.New(GetPunchAngle()) * 0.5) -- aim fix
 	SetViewAngles(Vec3Unpack(V))
 end
 
